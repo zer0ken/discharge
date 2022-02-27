@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>집에 보내줘</title>
+</head>
+
+<body>
+    <div class="px-5">
+        <h1 class="mt-5">
+            집에 보내줘
+            <small class="text-muted">복무일 계산기</small>
+        </h1>
+
+        <div class="progress mt-4">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" 
+                aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                <div>복무 <span id="serviced-day">0</span>일</div>
+            </div>
+
+            <div class="progress-bar bg-danger" role="progressbar" style="width: 40%;"
+                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                <div><span id="left-day">0</span>일 남음</div>
+            </div>
+
+            <div class="progress-bar bg-info" role="progressbar" style="width: 10%;"
+                aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                <div>휴가 <span id="vacation-day">0</span>일</div>
+            </div>
+        </div>
+
+        <form action="" class="mt-4">
+            <fieldset>
+                <legend>정보 입력</legend>
+                <p><label for="input">입대일</label><input type="date" name="enlisted-date" id="enlisted-date"></p>
+                <p><label for="input">전역일</label><input type="date" name="discharge-date" id="discharge-date"></p>
+                <p><label for="input">남은 휴가</label><input type="number" name="discharge-date" id="discharge-date"></p>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>
