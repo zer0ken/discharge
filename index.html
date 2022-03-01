@@ -75,7 +75,7 @@
             leftService: function() { return this.totalService - this.serviced - this.leftVacation * DAY_TO_MS },
 
             perOfServiced: function() { return Math.round(this.serviced / this.totalService * 100) },
-            perOfleftService: function() { return this.perOfServiced + Math.round(this.leftService / this.totalService * 100) },
+            perOfleftService: function() { return Math.round(this.leftService / this.totalService * 100) },
             perOfLeftVacation: function() { return 100 - this.perOfleftService },
 
             widthOfServiced: function() { return `${this.perOfServiced}%` },
