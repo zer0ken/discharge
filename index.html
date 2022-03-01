@@ -20,18 +20,21 @@
         </h1>
 
         <div class="progress mt-4">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" 
-                aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-success" role="progressbar"
+                :style="{ width: widthOfServiced }" :aria-valuenow="perOfServiced" 
+                aria-valuemin="0" aria-valuemax="100">
                 <div>복무 <span id="serviced-day">0</span>일</div>
             </div>
 
-            <div class="progress-bar bg-danger" role="progressbar" style="width: 40%;"
-                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-danger" role="progressbar"
+                :style="{ width: widthOfLeftService }" :aria-valuenow="perOfLeftService" 
+                aria-valuemin="0" aria-valuemax="100">
                 <div><span id="left-day">0</span>일 남음</div>
             </div>
 
-            <div class="progress-bar bg-info" role="progressbar" style="width: 10%;"
-                aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-info" role="progressbar" 
+                :style="{ width: widthOfLeftVacation }" :aria-valuenow="perOfLeftVacation" 
+                aria-valuemin="0" aria-valuemax="100">
                 <div>휴가 <span id="vacation-day">0</span>일</div>
             </div>
         </div>
@@ -66,13 +69,18 @@
             enlistedDateObj: function() { return parseDate(this.enlistedDate) },
             dischargeDateObj: function() { return parseDate(this.dischargeDate) },
             now: function() { return new Date() },
+
             totalService: function() { return (this.dischargeDateObj - this.enlistedDateObj) },
             serviced: function() { return (this.now - this.enlistedDateObj) },
             leftService: function() { return this.totalService - this.serviced - this.leftVacation * DAY_TO_MS },
-            perOfServiced: function() { return this.serviced / this.totalService * 100 },
-            perOfleftService: function() { return this.leftService / this.totalService * 100 },
-            perOfLeftVacation: function() { return 100 - this.perOfServiced - this.perOfleftService },
-            progressbarStyleOfServiced: function() { return "" }
+
+            perOfServiced: function() { return Math.round(this.serviced / this.totalService * 100) },
+            perOfleftService: function() { return this.perOfServiced + Math.round(this.leftService / this.totalService * 100) },
+            perOfLeftVacation: function() { return 100 - this.perOfleftService },
+
+            widthOfServiced: function() { return `${this.perOfServiced}%` },
+            widthOfleftService: function() { return `${this.perOfleftService}%` },
+            widthOfLeftVacation: function() { return `${this.perOfLeftVacation}%` }
         }})()
     })
 </script>
