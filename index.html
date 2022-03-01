@@ -70,13 +70,14 @@
             dischargeDateObj: function() { return parseDate(this.dischargeDate) },
             now: function() { return new Date() },
 
-            totalService: function() { return (this.dischargeDateObj - this.enlistedDateObj) },
-            serviced: function() { return (this.now - this.enlistedDateObj) },
+            totalService: function() { return this.dischargeDateObj - this.enlistedDateObj },
+            
+            serviced: function() { return this.now - this.enlistedDateObj },
             leftService: function() { return this.totalService - this.serviced - this.leftVacation * DAY_TO_MS },
 
             perOfServiced: function() { return Math.round(this.serviced / this.totalService * 100) },
             perOfleftService: function() { return Math.round(this.leftService / this.totalService * 100) },
-            perOfLeftVacation: function() { return 100 - this.perOfleftService },
+            perOfLeftVacation: function() { return 100 - this.perOfServiced - this.perOfleftService  },
 
             widthOfServiced: function() { return `${this.perOfServiced}%` },
             widthOfleftService: function() { return `${this.perOfleftService}%` },
