@@ -13,46 +13,50 @@
 </head>
 
 <body>
-    <div id="app" class="px-5">
-        <h1 class="mt-5">
-            집에 보내줘
-            <small class="text-muted">복무일 계산기</small>
-        </h1>
+    <div style="max-width: 1024px;">
+        <div id="app" class="px-5">
+            <h1 class="mt-5">
+                집에 보내줘
+                <small class="text-muted">복무일 계산기</small>
+            </h1>
 
-        <div class="progress mt-4">
-            <div class="progress-bar bg-success" role="progressbar" :style="{ width: widthOfServiced }"
-                :aria-valuenow="perOfServiced" aria-valuemin="0" aria-valuemax="100">
-                {{servicedDay}}일
+            <div class="progress mt-4">
+                <div class="progress-bar bg-success" role="progressbar" :style="{ width: widthOfServiced }"
+                    :aria-valuenow="perOfServiced" aria-valuemin="0" aria-valuemax="100">
+                    {{servicedDay}}일
+                </div>
+
+                <div class="progress-bar bg-danger" role="progressbar" :style="{ width: widthOfLeftService }"
+                    :aria-valuenow="perOfLeftService" aria-valuemin="0" aria-valuemax="100">
+                    {{leftServiceDay}}일
+                </div>
+
+                <div class="progress-bar bg-info" role="progressbar" :style="{ width: widthOfLeftVacation }"
+                    :aria-valuenow="perOfLeftVacation" aria-valuemin="0" aria-valuemax="100">
+                    {{leftVacation}}일
+                </div>
             </div>
 
-            <div class="progress-bar bg-danger" role="progressbar" :style="{ width: widthOfLeftService }"
-                :aria-valuenow="perOfLeftService" aria-valuemin="0" aria-valuemax="100">
-                {{leftServiceDay}}일
-            </div>
-
-            <div class="progress-bar bg-info" role="progressbar" :style="{ width: widthOfLeftVacation }"
-                :aria-valuenow="perOfLeftVacation" aria-valuemin="0" aria-valuemax="100">
-                {{leftVacation}}일
-            </div>
+            <form action="" class="mt-4" @keypress.enter.prevent>
+                <fieldset>
+                    <legend>정보 입력</legend>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label" for="enlisted-date">입대일</label>
+                            <input v-model="enlistedDate" type="date" class="form-control" id="enlisted-date" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="discharge-date">전역일</label>
+                            <input v-model="dischargeDate" type="date" class="form-control" id="discharge-date" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="left-vacation">남은 휴가</label>
+                        <input v-model="leftVacation" type="number" class="form-control" id="left-vacation" min="0" :max="leftService" />
+                    </div>
+                </fieldset>
+            </form>
         </div>
-
-        <form action="" class="mt-4" @keypress.enter.prevent>
-            <fieldset>
-                <legend>정보 입력</legend>
-                <p>
-                    <label for="enlisted-date">입대일</label><input v-model="enlistedDate" type="date"
-                        id="enlisted-date" />
-                </p>
-                <p>
-                    <label for="discharge-date">전역일</label><input v-model="dischargeDate" type="date"
-                        id="discharge-date" />
-                </p>
-                <p>
-                    <label for="left-vacation">남은 휴가</label><input v-model="leftVacation" type="number"
-                        id="left-vacation" min="0" :max="leftService" />
-                </p>
-            </fieldset>
-        </form>
     </div>
 </body>
 
