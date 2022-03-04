@@ -21,14 +21,17 @@
             </h1>
 
             <div class="progress mt-4">
-                <div class="progress-bar bg-success" role="progressbar" :style="{ width: widthOfServiced }"
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated " 
+                    data-bs-placement="bottom" :title="titleOfServiced"
+                    role="progressbar"  :style="{ width: widthOfServiced }"
                     :aria-valuenow="perOfServiced" aria-valuemin="0" aria-valuemax="100">
-                    {{servicedDay}}일
+                    {{servicedDay}}일 ({{perOfServiced | toFixed2}}%)
                 </div>
 
                 <div class="progress-bar bg-danger" role="progressbar" :style="{ width: widthOfLeftService }"
+                    data-bs-placement="bottom" :title="titleOfLeftService"
                     :aria-valuenow="perOfLeftService" aria-valuemin="0" aria-valuemax="100">
-                    {{leftServiceDay}}일
+                    {{leftServiceDay}}일 ({{perOfLeftService | toFixed2}}%)
                 </div>
 
                 <div class="progress-bar bg-info" role="progressbar" :style="{ width: widthOfLeftVacation }"
@@ -43,11 +46,11 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label class="form-label" for="enlisted-date">입대일</label>
-                            <input v-model="enlistedDate" type="date" class="form-control" id="enlisted-date" />
+                            <input v-model="enlistedDate" type="datetime" class="form-control" id="enlisted-date" placeholder="yyyy-mm-dd hh:mm" />
                         </div>
                         <div class="col">
                             <label class="form-label" for="discharge-date">전역일</label>
-                            <input v-model="dischargeDate" type="date" class="form-control" id="discharge-date" />
+                            <input v-model="dischargeDate" type="datetime" class="form-control" id="discharge-date" placeholder="yyyy-mm-dd hh:mm" />
                         </div>
                     </div>
                     <div class="mb-3">
@@ -61,21 +64,32 @@
 </body>
 
 <script>
-    const DAY_TO_MS = 24 * 60 * 60 * 1000;
+    const 
+        DAY_TO_MS = 24 * 60 * 60 * 1000,
+        HOUR_TO_MS = 60 * 60 * 1000,
+        MINUTE_TO_MS = 60 * 1000,
+        SECOND_TO_MS = 1000
+
 
     function parseDate(str) {
-        let dateObj = new Date(str);
-        return dateObj;
+        let dateObj = new Date(str)
+        return dateObj
     }
 
     var app = new Vue({
         el: "#app",
         data: () => {
             return {
-                enlistedDate: "2021-04-12",
-                dischargeDate: "2022-10-11",
+                enlistedDate: "2021-04-12 13:30",
+                dischargeDate: "2022-10-11 08:00",
                 leftVacation: 32,
+                now: 0
             };
+        },
+        methods: {
+            updateNow() {
+                this.now = new Date()
+            }
         },
         computed: {
             enlistedDateObj() {
@@ -83,9 +97,6 @@
             },
             dischargeDateObj() {
                 return new Date(this.dischargeDate)
-            },
-            now() {
-                return new Date()
             },
 
             totalService() {
@@ -107,25 +118,51 @@
             },
 
             perOfServiced() {
-                return (this.serviced / this.totalService) * 100;
+                return Math.max((this.serviced / this.totalService) * 100, 0)
             },
             perOfLeftService() {
-                return (this.leftService / this.totalService) * 100;
+                return Math.max((this.leftService / this.totalService) * 100, 0)
             },
             perOfLeftVacation() {
-                return 100 - this.perOfServiced - this.perOfLeftService;
+                return 100 - this.perOfServiced - this.perOfLeftService
             },
 
             widthOfServiced() {
-                return `${this.perOfServiced}%`;
+                return `${this.perOfServiced}%`
             },
             widthOfLeftService() {
-                return `${this.perOfLeftService}%`;
+                return `${this.perOfLeftService}%`
             },
             widthOfLeftVacation() {
-                return `${this.perOfLeftVacation}%`;
+                return `${this.perOfLeftVacation}%`
             },
+
+            titleOfServiced() {
+                let 
+                    days = this.servicedDay,
+                    hours = Math.round((this.serviced % DAY_TO_MS) / HOUR_TO_MS),
+                    minutes = Math.round((this.serviced % HOUR_TO_MS) / MINUTE_TO_MS),
+                    seconds = Math.round((this.serviced % MINUTE_TO_MS) / SECOND_TO_MS)
+                return `복무일: ${days}일 ${hours}시간 ${minutes}분 ${seconds}초, ${this.perOfServiced}%`
+            },
+            titleOfLeftService() {
+                let 
+                    days = this.leftServiceDay,
+                    hours = Math.round((this.leftService % DAY_TO_MS) / HOUR_TO_MS),
+                    minutes = Math.round((this.leftService % HOUR_TO_MS) / MINUTE_TO_MS),
+                    seconds = Math.round((this.leftService % MINUTE_TO_MS) / SECOND_TO_MS)
+                return `잔여 복무일: ${days}일 ${hours}시간 ${minutes}분 ${seconds}초, ${this.perOfLeftService}%`
+            }
         },
+        mounted() {
+            this.updateNow()
+            setInterval(this.updateNow, 1000)
+        },
+        filters: {
+            toFixed2(x) {
+                return x.toFixed(2)
+            }
+        }
     });
 </script>
 
