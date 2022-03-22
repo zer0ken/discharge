@@ -155,7 +155,7 @@
                 return `잔여 복무일: ${days}일 ${hours}시간 ${minutes}분 ${seconds}초, ${this.perOfLeftService}%`
             },
             titleOfLeftVacation() {
-                let dischargeDay = this.dischargeDateObj() - this.leftVacation * DAY_TO_MS
+                let dischargeDay = this.dischargeDateObj - this.leftVacation * DAY_TO_MS
                 let 
                     days = Math.round(dischargeDay / DAY_TO_MS),
                     hours = Math.round((dischargeDay % DAY_TO_MS) / HOUR_TO_MS),
