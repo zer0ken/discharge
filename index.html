@@ -21,7 +21,7 @@
             </h1>
 
             <div class="progress mt-4">
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated " 
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
                     data-bs-placement="bottom" :title="titleOfServiced"
                     role="progressbar"  :style="{ width: widthOfServiced }"
                     :aria-valuenow="perOfServiced" aria-valuemin="0" aria-valuemax="100">
@@ -35,6 +35,7 @@
                 </div>
 
                 <div class="progress-bar bg-info" role="progressbar" :style="{ width: widthOfLeftVacation }"
+                    data-bs-placement="bottom" :title="titleOfLeftVacation"
                     :aria-valuenow="perOfLeftVacation" aria-valuemin="0" aria-valuemax="100">
                     {{leftVacation}}일
                 </div>
@@ -152,6 +153,10 @@
                     minutes = Math.round((this.leftService % HOUR_TO_MS) / MINUTE_TO_MS),
                     seconds = Math.round((this.leftService % MINUTE_TO_MS) / SECOND_TO_MS)
                 return `잔여 복무일: ${days}일 ${hours}시간 ${minutes}분 ${seconds}초, ${this.perOfLeftService}%`
+            },
+            titleOfLeftVacation() {
+                let dischargeDay = parseDate(this.dischargeDateObj - this.leftVacation * DAY_TO_MS)
+                return `조기 전역일: ${dischargeDay.getFullYear()}년 ${dischargeDay.getMonth() + 1}월 ${dischargeDay.getDate()}일`
             }
         },
         mounted() {
